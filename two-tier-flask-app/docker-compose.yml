@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  mysql:
+    container_name: mysql_cont1
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devops
+    volumes:
+      - mysql-new-data:/var/lib/mysql
+    networks:
+      - my-two-tier-network
+    ports:
+      - "3306:3306"
+
+  flask:
+    container_name: new-flask-app1
+    image: achaudhary002/flask-app
+    environment:
+      MYSQL_HOST: mysql_cont1
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_DB: devops
+    networks:
+      - my-two-tier-network
+    ports:
+      - "5000:5000"
+
+networks:
+  my-two-tier-network:
+
+volumes:
+  mysql-new-data:
+
